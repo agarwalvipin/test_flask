@@ -1,0 +1,26 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf%}
+
+{% block title %}Login{% endblock %}
+
+{% block navbar %}
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">Login</a>
+		</div>
+	</nav>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md3">
+				{{ wtf.quick_form(form) }}
+				{% if name %}
+					<h1>Hello, {{name}}</h1>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

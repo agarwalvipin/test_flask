@@ -1,0 +1,8 @@
+{% macro weather_row(month, min, max, rainfall) %}
+	<tr>
+		<td>{{ month }}</td>
+		<td>{{ weather[month]['min'] }}</td>
+		<td>{{ weather[month]['max'] }}</td>
+		<td>{{ weather[month]['rainfall'] }}</td>
+	</tr>
+{% endmacro %}
