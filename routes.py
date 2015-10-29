@@ -10,7 +10,10 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'SECRET KEY!!'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:60135@localhost/expenses'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:60135@localhost/expenses'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://vipin:60135@localhost/expenses'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://ygrplbehjbnwql:3LkE8j7RkmPUihq6aV2IE7eWbI@ec2-54-225-192-128.compute-1.amazonaws.com:5432/d3cu4huiao9qrr'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'vipin339.mysql.pythonanywhere-services.com'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.sqlite3'
 
 bootstrap = Bootstrap(app)
@@ -43,8 +46,8 @@ class ExpenseForm(Form):
                                                     ('INC', 'Income')])
     submit = SubmitField('Submit')
 
-class AEntry(db.Model):
-    __tablename__ = 'AEntry'
+class tbl_entry(db.Model):
+    __tablename__ = 'tbl_entry'
     id = db.Column(db.Integer, primary_key=True)
     #id = db.column(db.Integer)
     amt = db.Column(db.Float)
@@ -70,7 +73,7 @@ def expense():
         form.amt.data = 0.0
         form.description.data = ''
         form.comments.data = ''
-        db.session.add(AEntry(amt = amt,date = date, description = description, category = category))
+        db.session.add(tbl_entry(amt = amt,date = date, description = description, category = category))
         db.session.commit()
     return render_template('expense.html',form=form, description=description)
     #return render_template('wtflogin.html',form=form)
