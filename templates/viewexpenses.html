@@ -1,0 +1,32 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'viewexpensesmacro.html' as viewexpensesmacro %}
+
+{% block title %}List of Expenses{% endblock %}
+
+{% block navbar %}
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">Expenses</a>
+		</div>
+	</nav>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<h1>Expenses</h1>
+		<table class="table table-responsive">
+			<tr>
+				<th>ID</th>
+				<th>Amount</th>
+				<th>Date</th>
+				<th>Description</th>
+				<th>Category</th>
+				<th>Timestamp</th>
+			</tr>
+			{% for entry in entries %}
+				{{ viewexpensesmacro.expense_row(entry[0],entry[1],entry[2],entry[3],entry[4],entry[5])
+				}}
+			{% endfor %}
+		</table>
+{% endblock %}

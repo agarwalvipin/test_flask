@@ -1,0 +1,10 @@
+{% macro expense_row(id, amount, date, description, category, timestamp) %}
+	<tr>
+		<td>{{ id }}</td>
+		<td>{{ amount }}</td>
+		<td>{{ date }}</td>
+		<td>{{ description }}</td>
+		<td>{{ category }}</td>
+		<td>{{ timestamp }}</td>
+	</tr>
+{% endmacro %}
