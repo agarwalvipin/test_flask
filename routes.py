@@ -7,6 +7,7 @@ from wtforms.fields.html5 import DateField
 from wtforms.validators import Required, Length, NumberRange
 #from wtforms.validators import *
 from flask.ext.sqlalchemy import SQLAlchemy
+
 import datetime
 from flask_restful import Resource, Api
 import json
@@ -63,7 +64,6 @@ class tbl_entry(db.Model):
     def get_entry(self):
         return self.id, self.amt, self.date, self.description, self.category, self.timestamp
     
-    
 class ExpenseEntries(Resource):
     def get(self):
         resDict = dict()
@@ -73,6 +73,16 @@ class ExpenseEntries(Resource):
     
 api.add_resource(ExpenseEntries,'/sview')
     
+class GetExpenseEntryById(Resource):    
+    def get(self, id):
+        resDict = dict()
+        entry = tbl_entry.query.get(id)
+        resDict[entry.get_entry()[0]] = str(entry.get_entry())
+        return json.dumps(resDict)
+
+api.add_resource(GetExpenseEntryById,'/sview/<int:id>')
+
+
 class NameForm(Form):
 	name = StringField('Name?', validators=[Required(),Length(1,12)	])
 	submit = SubmitField('Submit')
