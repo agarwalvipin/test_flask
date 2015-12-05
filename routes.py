@@ -8,6 +8,8 @@ from wtforms.validators import Required, Length, NumberRange
 #from wtforms.validators import *
 from flask.ext.sqlalchemy import SQLAlchemy
 import datetime
+from flask_restful import Resource, Api
+import json
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'SECRET KEY!!'
@@ -20,6 +22,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://ygrplbehjbnwql:3LkE8j7RkmPUi
 
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
+api = Api(app)
 
 class ExpenseForm(Form):
     amt         = FloatField('Amount',validators=[Required(),NumberRange(min=0.0, max=999999)])
@@ -50,20 +53,25 @@ class ExpenseForm(Form):
 
 class tbl_entry(db.Model):
     __tablename__ = 'tbl_entry'
-    #__tablename__ = 'test.tbl_entry'
     id = db.Column(db.Integer, primary_key=True)
-    #id = db.column(db.Integer)
     amt = db.Column(db.Float)
     date = db.Column(db.Date) 
-    #description = db.column(db.String, length = 64)
     description = db.Column(db.String(64))
     category = db.Column(db.String(64))
     timestamp = db.Column(db.DateTime) 
     
     def get_entry(self):
         return self.id, self.amt, self.date, self.description, self.category, self.timestamp
-        
     
+    
+class ExpenseEntries(Resource):
+    def get(self):
+        resDict = dict()
+        for entry in tbl_entry.query.all():
+            resDict[entry.get_entry()[0]] = str(entry.get_entry())
+        return json.dumps(resDict)
+    
+api.add_resource(ExpenseEntries,'/sview')
     
 class NameForm(Form):
 	name = StringField('Name?', validators=[Required(),Length(1,12)	])
@@ -88,11 +96,8 @@ def expense():
 
 @app.route('/viewexpenses', methods = ['GET','POST'])
 def viewexpense():
-    #return [entry.get_entry() for entry in tbl_entry.query.all()]
-    #for entry in tbl_entry.query.all():
-     #   print entry.get_entry() 
     return render_template('viewexpenses.html',entries = [entry.get_entry() for entry in tbl_entry.query.all()])
-    #return render_template('wtflogin.html',form=form)
+
 @app.route('/wtflogin', methods = ['GET','POST'])
 def wtflogin():
 	name = None
