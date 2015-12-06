@@ -1,0 +1,2 @@
+removed Null constraint for time stamp:
+ALTER TABLE public.tbl_entry ALTER COLUMN "timestamp" DROP NOT NULL;
