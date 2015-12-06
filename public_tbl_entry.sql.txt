@@ -1,0 +1,26 @@
+CREATE TABLE public.tbl_entry (
+  id SERIAL,
+  amt DOUBLE PRECISION NOT NULL,
+  date DATE NOT NULL,
+  description VARCHAR(64),
+  category VARCHAR(64) NOT NULL,
+  "timestamp" TIMESTAMP WITHOUT TIME ZONE DEFAULT timezone('Asia/Calcutta'::text, now()),
+  CONSTRAINT tbl_entry_pkey PRIMARY KEY(id)
+) ;
+
+/* Data for the 'public.tbl_entry' table  (Records 1 - 12) */
+
+INSERT INTO public.tbl_entry ("id", "amt", "date", "description", "category", "timestamp")
+VALUES 
+  (5, 339, E'2015-12-01', E'Hyper city', E'RAT', E'2015-12-05 01:08:10.794'),
+  (6, 63, E'2015-12-01', E'Travel', E'OFF', E'2015-12-05 01:08:10.794'),
+  (10, 63, E'2015-12-02', E'Travel', E'OFF', E'2015-12-05 01:08:10.794'),
+  (11, 2500, E'2015-12-02', E'Rent', E'HOH', E'2015-12-05 01:08:10.794'),
+  (12, 7500, E'2015-12-04', E'Pari creche', E'CC', E'2015-12-05 01:08:10.794'),
+  (13, 134, E'2015-12-04', E'Travel', E'OFF', E'2015-12-05 01:08:10.794'),
+  (14, 750, E'2015-12-04', E'Wedding colleagues', E'OFF', E'2015-12-05 01:08:10.794'),
+  (15, 61, E'2015-12-04', E'Vada paav', E'RST', E'2015-12-05 01:08:10.794'),
+  (16, 60, E'2015-12-05', E'press', E'HOH', E'2015-12-05 01:08:10.794'),
+  (17, 1600, E'2015-12-04', E'Padma', E'MS', E'2015-12-05 01:08:10.794'),
+  (18, 63, E'2015-12-05', E'Travel', E'OFF', E'2015-12-05 01:12:07.065'),
+  (22, 1220, E'2015-12-05', E'Milk', E'HOH', NULL);

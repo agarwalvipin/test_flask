@@ -8,15 +8,19 @@ from wtforms.validators import Required, Length, NumberRange
 #from wtforms.validators import *
 from flask.ext.sqlalchemy import SQLAlchemy
 
-import datetime
+from datetime import datetime
 from flask_restful import Resource, Api
 import json
+import pytz
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'SECRET KEY!!'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:60135@localhost/expenses'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://vipin:60135@localhost/expenses'
+#PROD DB--->
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://ygrplbehjbnwql:3LkE8j7RkmPUihq6aV2IE7eWbI@ec2-54-225-192-128.compute-1.amazonaws.com:5432/d3cu4huiao9qrr'
+
+#QA DB--->
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://ygrplbehjbnwql:3LkE8j7RkmPUihq6aV2IE7eWbI@ec2-54-225-192-128.compute-1.amazonaws.com:5432/d3cu4huiao9qrr'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'vipin339.mysql.pythonanywhere-services.com'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.sqlite3'
@@ -59,7 +63,7 @@ class tbl_entry(db.Model):
     date = db.Column(db.Date) 
     description = db.Column(db.String(64))
     category = db.Column(db.String(64))
-    timestamp = db.Column(db.DateTime) 
+    timestamp = db.Column(db.DateTime,default=datetime.now(tz=pytz.timezone('Asia/Calcutta'))) 
     
     def get_entry(self):
         return self.id, self.amt, self.date, self.description, self.category, self.timestamp
@@ -106,7 +110,7 @@ def expense():
 
 @app.route('/viewexpenses', methods = ['GET','POST'])
 def viewexpense():
-    return render_template('viewexpenses.html',entries = [entry.get_entry() for entry in tbl_entry.query.all()])
+    return render_template('viewexpenses.html',entries = [entry.get_entry() for entry in tbl_entry.query.order_by(tbl_entry.date.desc()).all()])
 
 @app.route('/wtflogin', methods = ['GET','POST'])
 def wtflogin():
